@@ -74,6 +74,18 @@ def basic_sql_operations(cursor):
     for row in records:
         print(row)
 
+def sql_update_delete_insert_operations(conn, cursor):
+    #1) Insert
+    cursor.execute("INSERT INTO Students VALUES (6, 'Frank Miller', 23, 'frank@gmail.com','Miami')")
+    conn.commit()
+
+    #2) UPDATE
+    cursor.execute("UPDATE Students SET age = 24 WHERE id = 6")
+    conn.commit()
+
+    #3) DELETE
+    cursor.execute("DELETE FROM Students WHERE id = 6")
+    conn.commit()
 
 def main():
     conn, cursor = create_database()
@@ -82,6 +94,7 @@ def main():
         create_table(cursor)
         insert_sample_data(cursor)
         basic_sql_operations(cursor)
+        sql_update_delete_insert_operations(conn, cursor)
         conn.commit()
     except sqlite3.Error as e:
         print(e)
