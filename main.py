@@ -41,7 +41,7 @@ def insert_sample_data(cursor):
         (5, 'Emma Davis', 22, 'emma@gmail.com', 'Seattle')
     ]
     cursor.executemany('INSERT INTO Students VALUES (?, ?, ?, ?,?)', students)
-    # coloumn kadar ? yazılır
+    # column kadar ? yazılır
     # birden fazla olduğu için executemany
 
     courses = [
@@ -53,12 +53,35 @@ def insert_sample_data(cursor):
     cursor.executemany('INSERT INTO Courses VALUES (?, ?,?,?)', courses)
     print("Sample data inserted successfully")
 
+
+def basic_sql_operations(cursor):
+    # 1-select all
+    cursor.execute("SELECT * FROM Students")
+    records = cursor.fetchall() # dataları aldırır
+    for row in records:
+        print(row)
+
+    # 2-select columns
+    cursor.execute("SELECT name,age FROM Students")
+    records = cursor.fetchall()
+    print("\n")
+    print(records)
+
+    # where clause
+    print("\n")
+    cursor.execute("SELECT * FROM Students WHERE age=21")
+    records = cursor.fetchall()
+    for row in records:
+        print(row)
+
+
 def main():
     conn, cursor = create_database()
 
     try:
         create_table(cursor)
         insert_sample_data(cursor)
+        basic_sql_operations(cursor)
         conn.commit()
     except sqlite3.Error as e:
         print(e)
