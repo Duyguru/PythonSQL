@@ -87,6 +87,34 @@ def sql_update_delete_insert_operations(conn, cursor):
     cursor.execute("DELETE FROM Students WHERE id = 6")
     conn.commit()
 
+def aggregate_functions(cursor):
+    #1) Count
+    print("----------Aggregate Functions Count----------")
+    cursor.execute("SELECT COUNT(*) FROM Students")
+    result = cursor.fetchone() # tek sonuç veren işlemlerde tercih edilir
+    print(result[0])
+
+    # 2) Average
+    print("----------Aggregate Functions Average----------")
+    cursor.execute("SELECT AVG(age) FROM Students")
+    result = cursor.fetchone()
+    print(result[0])
+
+    # 3) MAX - MIN
+    print("----------Aggregate Functions Max-Min----------")
+    cursor.execute("SELECT MAX(age), MIN(age) FROM Students")
+    result = cursor.fetchone()
+    max_age, min_age = result
+    print(max_age)
+    print(min_age)
+
+    # 4) GROUP BY
+    print("----------Aggregate Functions Group by----------")
+    cursor.execute("SELECT city, COUNT(*) FROM Students GROUP BY city")
+    result = cursor.fetchall()
+    print(result)
+
+
 def main():
     conn, cursor = create_database()
 
@@ -95,6 +123,7 @@ def main():
         insert_sample_data(cursor)
         basic_sql_operations(cursor)
         sql_update_delete_insert_operations(conn, cursor)
+        aggregate_functions(cursor)
         conn.commit()
     except sqlite3.Error as e:
         print(e)
